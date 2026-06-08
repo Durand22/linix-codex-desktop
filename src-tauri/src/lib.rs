@@ -10,8 +10,8 @@ use tauri::Manager;
 #[tauri::command]
 async fn engine_health(
     state: tauri::State<'_, Arc<EngineLifecycle>>,
-) -> engine::lifecycle::EngineHealthSnapshot {
-    state.health().await
+) -> Result<engine::lifecycle::EngineHealthSnapshot, String> {
+    Ok(state.health().await)
 }
 
 #[tauri::command]
