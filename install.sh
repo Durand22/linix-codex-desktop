@@ -128,12 +128,17 @@ print_manual_instructions() {
 
 Manual fallback instructions:
 
-1. Install prerequisites for your Linux distro:
+1. Fix apt GPG key failures if needed:
+   sudo rm /usr/share/keyrings/waydroid.gpg
+   sudo curl --proto '=https' --tlsv1.2 -sSf https://repo.waydro.id/waydroid.gpg -o /usr/share/keyrings/waydroid.gpg
+   sudo apt update
+
+2. Install prerequisites for your Linux distro:
    - Debian/Ubuntu: sudo apt update && sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev
    - Fedora/RHEL: sudo dnf install -y curl git gcc-c++ make openssl-devel gtk3-devel webkit2gtk3-devel
    - Arch/Manjaro: sudo pacman -Syu --needed curl git base-devel openssl gtk3 webkit2gtk
 
-2. Install nvm and Node 20:
+3. Install nvm and Node 20:
    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
    source "$HOME/.nvm/nvm.sh"
    nvm install 20

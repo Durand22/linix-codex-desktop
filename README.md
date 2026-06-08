@@ -119,7 +119,19 @@ rustup toolchain install stable
 rustup default stable
 ```
 
-### 1.4 Automated installer
+### 1.4 Fix apt GPG key failures
+
+If `apt update` fails with a missing public key or unsupported Waydroid key file, run:
+
+```bash
+sudo rm /usr/share/keyrings/waydroid.gpg
+sudo curl --proto '=https' --tlsv1.2 -sSf https://repo.waydro.id/waydroid.gpg -o /usr/share/keyrings/waydroid.gpg
+sudo apt update
+```
+
+Then continue with the installer or manual steps.
+
+### 1.5 Automated installer
 
 The repository includes an automated installer script that installs prerequisites when possible, sets up Node 20, installs Rust, installs project dependencies, installs system payloads, and starts the engine service.
 
