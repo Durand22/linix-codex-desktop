@@ -53,6 +53,12 @@ systemctl --user enable --now codex-engine.service
 npm run tauri:dev
 ```
 
+## One-line copy/paste setup
+
+```bash
+cd /home/durand/Projects/codex-desktop && nvm use && npm install && ./scripts/install-system-payloads.sh && systemctl --user enable --now codex-engine.service && npm run tauri:dev
+```
+
 ## Full setup guide
 
 ### 1. Prerequisites
