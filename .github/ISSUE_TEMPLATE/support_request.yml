@@ -1,0 +1,44 @@
+name: Support request
+description: Open an issue for installation, setup, or configuration help.
+labels: [support, help wanted]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Support request
+        Use this template for install or setup guidance and troubleshooting.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem description
+      description: Describe the issue you're facing and what you were trying to do.
+      placeholder: |
+        I’m trying to install Codex Desktop on Ubuntu 24.04 and the script fails at ...
+    validations:
+      required: true
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What you tried
+      description: List any commands or troubleshooting steps you already attempted.
+      placeholder: |
+        - Ran ./install.sh
+        - Installed Node 20
+        - Tried apt update
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment details
+      description: OS/distribution, installed runtime versions, and shell.
+      placeholder: |
+        Ubuntu 24.04
+        Node 20.0.0
+        Rust 1.80.0
+        bash 5.2
+  - type: textarea
+    id: desired
+    attributes:
+      label: Desired result
+      description: Explain what you want to accomplish or what result you expect.
+      placeholder: |
+        I want the installer to complete and the app to launch as a Linux desktop app.

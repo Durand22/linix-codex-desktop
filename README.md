@@ -152,6 +152,15 @@ The repository includes an automated installer script that installs prerequisite
 
 If `apt update` fails because of a broken third-party repository or missing signing key, the script will continue to try installing packages from the local cache. If a required package cannot be installed, the installer will print manual fallback instructions.
 
+## Report an issue or request support
+
+If you run into problems, please open a GitHub issue using one of the pre-made templates so we can quickly triage your report:
+
+- **Bug report**: use the bug report template for reproducible failures and installer errors.
+- **Support request**: use the support request template for setup, install, or configuration help.
+
+If you would rather provide full context first, the `ISSUES.md` file also contains the current known issues and troubleshooting steps.
+
 ### 2. Use the correct Node version
 
 ```bash

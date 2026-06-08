@@ -1,0 +1,54 @@
+name: Bug report
+description: Report a bug encountered while installing or running Codex Desktop.
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug report
+        Please provide as much detail as possible so we can reproduce the issue.
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Describe the exact steps you took before the issue occurred.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+      placeholder: Describe the expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened?
+      placeholder: Describe the observed behavior, including error messages.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment details
+      description: OS, distribution, Node version, shell, and any relevant environment info.
+      placeholder: |
+        Ubuntu 22.04
+        Node 20.0.0
+        Bash 5.1
+        Tauri / Rust stable
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Optional logs, screenshots, or extra notes.
+      placeholder: Add any other information that may help troubleshoot.
