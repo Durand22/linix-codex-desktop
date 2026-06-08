@@ -1,0 +1,156 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+#
+# Codex Desktop — Unbounded Access Mode
+# Local headless app-server handles filesystem/tool execution under full user context.
+# AI inference is offloaded to a cloud OpenAI-compatible provider.
+
+################################################################################
+# Access & Permissions (Unbounded Access Mode)
+################################################################################
+
+access_mode = "full"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+allow_login_shell = true
+
+################################################################################
+# Feature Flags
+################################################################################
+
+[features]
+unified_exec = true
+apps = true
+shell_tool = true
+multi_agent = true
+hooks = true
+web_search_request = true
+view_image_tool = true
+
+[apps._default]
+enabled = true
+destructive_enabled = true
+open_world_enabled = true
+default_tools_enabled = true
+default_tools_approval_mode = "auto"
+
+################################################################################
+# Cloud Inference (default provider)
+################################################################################
+
+model = "gpt-5.4"
+model_provider = "cloud"
+
+# Override OpenAI API base URL (Azure, proxy, or compatible gateway).
+openai_base_url = "https://api.openai.com/v1"
+
+# ChatGPT login flow override (unused when using API keys).
+# chatgpt_base_url = "https://chatgpt.com/backend-api/"
+
+# API key is read from the environment variable named in env_key below.
+# Place secrets in ~/.codex/.env (loaded by systemd and the desktop shell).
+
+[model_providers.cloud]
+name = "Cloud OpenAI-Compatible"
+base_url = "https://api.openai.com/v1"
+env_key = "OPENAI_API_KEY"
+env_key_instructions = "Export OPENAI_API_KEY or add it to ~/.codex/.env"
+wire_api = "responses"
+request_max_retries = 4
+stream_max_retries = 4
+stream_idle_timeout_ms = 300000
+
+[model_providers.cloud-alt]
+name = "Custom Cloud Endpoint"
+base_url = "https://your-gateway.example.com/v1"
+env_key = "CODEX_CLOUD_API_KEY"
+env_key_instructions = "Set CODEX_CLOUD_API_KEY to your provider token"
+wire_api = "responses"
+http_headers = { "X-Codex-Client" = "codex-desktop-linux" }
+
+################################################################################
+# OSS / Local Engine Parameters (--oss)
+################################################################################
+
+# Default OSS backend when invoking: codex --oss
+oss_provider = "ollama"
+
+[model_providers.oss]
+name = "OSS Router"
+base_url = "http://127.0.0.1:11434/v1"
+env_key = "OLLAMA_API_KEY"
+wire_api = "responses"
+
+[model_providers.ollama]
+name = "Ollama"
+base_url = "http://127.0.0.1:11434/v1"
+env_key = "OLLAMA_API_KEY"
+env_key_instructions = "Optional for local Ollama; set if your instance requires auth"
+wire_api = "responses"
+
+[model_providers.lmstudio]
+name = "LM Studio"
+base_url = "http://127.0.0.1:1234/v1"
+env_key = "LMSTUDIO_API_KEY"
+wire_api = "responses"
+
+################################################################################
+# Profiles (switch with: codex --profile <name>)
+################################################################################
+
+[profiles.cloud]
+model_provider = "cloud"
+model = "gpt-5.4"
+access_mode = "full"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+
+[profiles.cloud-alt]
+model_provider = "cloud-alt"
+model = "gpt-5.4"
+access_mode = "full"
+
+[profiles.oss]
+model_provider = "oss"
+oss_provider = "ollama"
+model = "qwen2.5-coder:32b"
+access_mode = "full"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+
+################################################################################
+# Workspace Roots (full filesystem visibility)
+################################################################################
+
+workspace_roots = ["~", "~/Projects", "~/Developer", "~/repos"]
+
+################################################################################
+# Shell Environment (inherit full user context for app-server)
+################################################################################
+
+[shell_environment_policy]
+inherit = "all"
+
+################################################################################
+# App-server / Desktop Integration
+################################################################################
+
+[analytics]
+enabled = false
+
+[history]
+persistence = "save-all"
+
+[tui]
+notifications = true
+notifications_method = "auto"
+
+notify = ["notify-send", "Codex Desktop", "%s"]
+
+################################################################################
+# Optional MCP (disabled by default; enable per integration)
+################################################################################
+
+# [mcp_servers.github]
+# command = "npx"
+# args = ["-y", "@modelcontextprotocol/server-github"]
+# enabled = false

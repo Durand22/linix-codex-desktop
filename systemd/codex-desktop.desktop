@@ -1,0 +1,28 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Codex Desktop
+GenericName=AI Coding Assistant
+Comment=Native Linux desktop shell for Codex with local filesystem access and cloud inference
+Categories=Development;IDE;Utility;
+Keywords=codex;ai;agent;developer;coding;
+StartupNotify=true
+Terminal=false
+StartupWMClass=codex-desktop
+Icon=codex-desktop
+TryExec=/usr/local/bin/codex-desktop
+Exec=env GDK_BACKEND=wayland,x11 QT_QPA_PLATFORM=wayland;xcb /usr/local/bin/codex-desktop %U
+MimeType=inode/directory;text/plain;
+Actions=NewSession;EngineStatus;
+
+X-GNOME-UsesNotifications=true
+X-KDE-SubstituteUID=false
+X-KDE-StartupNotify=true
+
+[Desktop Action NewSession]
+Name=New Session
+Exec=env GDK_BACKEND=wayland,x11 QT_QPA_PLATFORM=wayland;xcb /usr/local/bin/codex-desktop --new-session
+
+[Desktop Action EngineStatus]
+Name=Engine Status
+Exec=/usr/bin/systemctl --user status codex-engine.service

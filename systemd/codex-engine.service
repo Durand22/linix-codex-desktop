@@ -1,0 +1,35 @@
+[Unit]
+Description=Codex headless app-server for Codex Desktop
+Documentation=https://developers.openai.com/codex/cli/app-server
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=%h/.codex/config.toml
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=USER=%u
+Environment=LOGNAME=%u
+Environment=XDG_CONFIG_HOME=%h/.config
+Environment=XDG_DATA_HOME=%h/.local/share
+Environment=XDG_CACHE_HOME=%h/.cache
+Environment=XDG_RUNTIME_DIR=/run/user/%U
+Environment=CODEX_HOME=%h/.codex
+Environment=CODEX_ENGINE_WS_URL=ws://127.0.0.1:4520
+EnvironmentFile=-%h/.codex/.env
+ExecStartPre=/usr/bin/mkdir -p %h/.codex %h/.local/share/codex/run /run/user/%U/codex
+ExecStart=/usr/bin/env codex app-server --listen ws://127.0.0.1:4520
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+KillMode=mixed
+KillSignal=SIGTERM
+SendSIGKILL=yes
+WatchdogSec=0
+NoNewPrivileges=false
+PrivateTmp=false
+ProtectSystem=false
+ProtectHome=false
+
+[Install]
+WantedBy=default.target
