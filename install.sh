@@ -21,15 +21,78 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
+fix_waydroid_key() {
+  local keyfile="/usr/share/keyrings/waydroid.gpg"
+
+  if [[ -f "$keyfile" ]]; then
+    warn "Removing unsupported or corrupted Waydroid keyring: $keyfile"
+    sudo rm -f "$keyfile"
+  fi
+
+  warn "Downloading fresh Waydroid signing key"
+  sudo curl --proto '=https' --tlsv1.2 -sSf https://repo.waydro.id/waydroid.gpg -o "$keyfile"
+}
+
+ensure_universe_repo() {
+  if ! grep -Rhs "^deb .* universe" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null | grep -q .; then
+    warn "Enabling Ubuntu universe repository"
+    if ! command_exists add-apt-repository; then
+      warn "Installing software-properties-common to enable add-apt-repository"
+      sudo apt update || true
+      sudo apt install -y software-properties-common
+    fi
+    sudo add-apt-repository -y universe
+  fi
+}
+
+apt_update_with_fixes() {
+  local output
+  if output=$(sudo apt update 2>&1); then
+    return 0
+  fi
+
+  warn "apt update failed:"
+  printf '%s\n' "$output"
+
+  if printf '%s\n' "$output" | grep -qE 'NO_PUBKEY|waydroid.gpg|not signed'; then
+    fix_waydroid_key
+    if output=$(sudo apt update 2>&1); then
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
+apt_install_with_fixes() {
+  local output
+  if output=$(sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev 2>&1); then
+    return 0
+  fi
+
+  warn "apt install failed:"
+  printf '%s\n' "$output"
+
+  if printf '%s\n' "$output" | grep -q 'Unable to locate package libwebkit2gtk-4.0-dev'; then
+    ensure_universe_repo
+    sudo apt update || true
+    if output=$(sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev 2>&1); then
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
 install_packages() {
   case "$1" in
     apt)
       info "Installing required packages with apt"
-      if ! sudo apt update; then
+      if ! apt_update_with_fixes; then
         warn "apt update failed due to repository issues. Package lists may be incomplete."
       fi
 
-      if ! sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev; then
+      if ! apt_install_with_fixes; then
         error "apt install failed. Please fix your apt sources or install prerequisites manually."
       fi
       ;;
