@@ -66,7 +66,7 @@ cd /home/durand/Projects/codex-desktop && nvm use && npm install && ./scripts/in
 - Linux host
 - `nvm` installed and available
 - Node.js `20.x` (see `.nvmrc`)
-- `npm`
+- `npm`https://github.com/Durand22/linix-codex-desktop/settings/keys
 - Rust toolchain for Tauri (`rustup`, `cargo`)
 - `systemd --user`
 
@@ -106,7 +106,17 @@ This sets up the user service, desktop entry, and engine config paths.
 systemctl --user enable --now codex-engine.service
 ```
 
-### 6. Run the desktop app
+### 6. Install the desktop launcher for one-click start
+
+```bash
+./scripts/install-system-payloads.sh
+```
+
+This installs a desktop entry at `~/.local/share/applications/codex-desktop.desktop`.
+
+Once installed, open your Linux application launcher and search for **Codex Desktop** to start the app with a single click.
+
+### 7. Run the desktop app in development mode
 
 ```bash
 npm run tauri:dev
