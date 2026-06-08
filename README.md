@@ -66,9 +66,50 @@ cd /home/durand/Projects/codex-desktop && nvm use && npm install && ./scripts/in
 - Linux host
 - `nvm` installed and available
 - Node.js `20.x` (see `.nvmrc`)
-- `npm`https://github.com/Durand22/linix-codex-desktop/settings/keys
+- `npm`
 - Rust toolchain for Tauri (`rustup`, `cargo`)
 - `systemd --user`
+
+### 1.1 Install prerequisites on Linux
+
+Use one of the commands below to install the required platform tools.
+
+#### Debian / Ubuntu
+
+```bash
+sudo apt update
+sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev
+```
+
+#### Fedora / RHEL
+
+```bash
+sudo dnf install -y curl git gcc-c++ make openssl-devel gtk3-devel webkit2gtk3-devel
+```
+
+#### Arch Linux / Manjaro
+
+```bash
+sudo pacman -Syu --needed curl git base-devel openssl gtk3 webkit2gtk
+```
+
+#### Install `nvm` and Node 20
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+source "$HOME/.nvm/nvm.sh"
+nvm install 20
+nvm use 20
+```
+
+#### Install Rust toolchain
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+rustup toolchain install stable
+rustup default stable
+```
 
 ### 2. Use the correct Node version
 
