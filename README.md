@@ -280,6 +280,10 @@ sudo apt update
 
 Then rerun the installer.
 
+## Troubleshooting and issue tracking
+
+For a full list of installer issues, fixes, and troubleshooting steps, see `ISSUES.md`.
+
 ## What this project does
 
 This repo provides a native Linux desktop shell for Codex.
