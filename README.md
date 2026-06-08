@@ -218,6 +218,46 @@ npm run tauri:build
 - Use `nvm use` before running or building, otherwise packages may fail.
 - If the engine service is not running, the app may not connect to the local backend.
 
+## Troubleshooting
+
+### `apt update` fails with Waydroid `NO_PUBKEY`
+
+If `apt update` reports a missing public key for `https://repo.waydro.id` or an unsupported `waydroid.gpg` file, run:
+
+```bash
+sudo rm /usr/share/keyrings/waydroid.gpg
+sudo curl --proto '=https' --tlsv1.2 -sSf https://repo.waydro.id/waydroid.gpg -o /usr/share/keyrings/waydroid.gpg
+sudo apt update
+```
+
+Then rerun the installer:
+
+```bash
+./install.sh
+```
+
+### Installer stops before `npm install`
+
+If the automated installer exits early, complete the missing steps manually:
+
+```bash
+nvm use
+npm install
+./scripts/install-system-payloads.sh
+systemctl --user enable --now codex-engine.service
+npm run tauri:dev
+```
+
+### `systemctl --user` fails
+
+If the user systemd service command fails, make sure user systemd is enabled and running:
+
+```bash
+loginctl enable-linger "$USER"
+systemctl --user daemon-reload
+systemctl --user enable --now codex-engine.service
+```
+
 ## What this project does
 
 This repo provides a native Linux desktop shell for Codex.
