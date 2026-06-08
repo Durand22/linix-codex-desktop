@@ -34,18 +34,17 @@ cloud provider through an OpenAI-compatible API.
 
 ## Quick start
 
+Open a terminal in the project root.
+
 ### Option 1: Automated installer (recommended)
 
 ```bash
-cd /home/durand/Projects/codex-desktop
 ./install.sh
 ```
 
 ### Option 2: Manual setup
 
 ```bash
-cd /home/durand/Projects/codex-desktop
-
 # Use the repository Node version
 nvm use
 
@@ -55,17 +54,17 @@ npm install
 # Install required system payloads for the engine
 ./scripts/install-system-payloads.sh
 
-# Enable and start the local engine service
+# Enable and start the engine service
 systemctl --user enable --now codex-engine.service
 
-# Start the desktop shell in development mode
+# Run the desktop shell in development mode
 npm run tauri:dev
 ```
 
-## One-line copy/paste setup
+## One-line setup
 
 ```bash
-cd /home/durand/Projects/codex-desktop && ./install.sh
+./install.sh
 ```
 
 ## Full setup guide
@@ -102,7 +101,7 @@ sudo dnf install -y curl git gcc-c++ make openssl-devel gtk3-devel webkit2gtk3-d
 sudo pacman -Syu --needed curl git base-devel openssl gtk3 webkit2gtk
 ```
 
-#### Install `nvm` and Node 20
+### 1.2 Install `nvm` and Node 20
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
@@ -111,7 +110,7 @@ nvm install 20
 nvm use 20
 ```
 
-#### Install Rust toolchain
+### 1.3 Install Rust toolchain
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -120,25 +119,19 @@ rustup toolchain install stable
 rustup default stable
 ```
 
-### 1.2 Automated installer
+### 1.4 Automated installer
 
-The repository includes an automated installer script that attempts to install prerequisites, set up Node 20, install Rust, install project dependencies, install system payloads, and start the engine service.
+The repository includes an automated installer script that installs prerequisites when possible, sets up Node 20, installs Rust, installs project dependencies, installs system payloads, and starts the engine service.
 
 ```bash
-cd /home/durand/Projects/codex-desktop
 ./install.sh
 ```
 
-This script supports Debian/Ubuntu, Fedora/RHEL, and Arch/Manjaro as long as the corresponding package manager is available.
-
-If the script cannot complete an automated step, it will print manual fallback instructions.
+If the script cannot complete a step automatically, it will print manual fallback instructions.
 
 ### 2. Use the correct Node version
 
-From the repo root:
-
 ```bash
-cd /home/durand/Projects/codex-desktop
 nvm use
 ```
 
@@ -177,7 +170,7 @@ systemctl --user enable --now codex-engine.service
 
 This installs a desktop entry at `~/.local/share/applications/codex-desktop.desktop`.
 
-Once installed, open your Linux application launcher and search for **Codex Desktop** to start the app with a single click.
+Open your application launcher and search for **Codex Desktop** to start the app with one click.
 
 ### 7. Run the desktop app in development mode
 
