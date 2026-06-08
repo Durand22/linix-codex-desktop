@@ -89,7 +89,7 @@ Use one of the commands below to install the required platform tools.
 
 ```bash
 sudo apt update
-sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev
+sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.1-dev || sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev
 ```
 
 #### Fedora / RHEL
@@ -132,12 +132,12 @@ sudo curl --proto '=https' --tlsv1.2 -sSf https://repo.waydro.id/waydroid.gpg -o
 sudo apt update
 ```
 
-If `apt install` still reports `Unable to locate package libwebkit2gtk-4.0-dev`, enable the Ubuntu universe repository and update again:
+If `apt install` still reports a missing WebKit development package, enable the Ubuntu universe repository and update again:
 
 ```bash
 sudo add-apt-repository universe
 sudo apt update
-sudo apt install -y libwebkit2gtk-4.0-dev
+sudo apt install -y libwebkit2gtk-4.1-dev || sudo apt install -y libwebkit2gtk-4.0-dev
 ```
 
 Then continue with the installer or manual steps.
@@ -280,7 +280,7 @@ systemctl --user enable --now codex-engine.service
 
 ### Universe repository missing
 
-If `apt install` cannot find `libwebkit2gtk-4.0-dev`, install the Ubuntu universe repository:
+If `apt install` cannot find the WebKit development package, install the Ubuntu universe repository:
 
 ```bash
 sudo add-apt-repository universe

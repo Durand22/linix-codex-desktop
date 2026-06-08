@@ -45,6 +45,17 @@ ensure_universe_repo() {
   fi
 }
 
+choose_webkit_package() {
+  local candidates=(libwebkit2gtk-4.1-dev libwebkit2gtk-4.0-dev)
+  for pkg in "${candidates[@]}"; do
+    if apt-cache policy "$pkg" 2>/dev/null | grep -q '^  Candidate:' && ! apt-cache policy "$pkg" 2>/dev/null | grep -q 'Candidate: (none)'; then
+      printf '%s' "$pkg"
+      return 0
+    fi
+  done
+  printf '%s' "${candidates[0]}"
+}
+
 apt_update_with_fixes() {
   local output
   if output=$(sudo apt update 2>&1); then
@@ -66,17 +77,21 @@ apt_update_with_fixes() {
 
 apt_install_with_fixes() {
   local output
-  if output=$(sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev 2>&1); then
+  local webkit_pkg
+  webkit_pkg="$(choose_webkit_package)"
+
+  if output=$(sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev "$webkit_pkg" 2>&1); then
     return 0
   fi
 
   warn "apt install failed:"
   printf '%s\n' "$output"
 
-  if printf '%s\n' "$output" | grep -q 'Unable to locate package libwebkit2gtk-4.0-dev'; then
+  if printf '%s\n' "$output" | grep -q 'Unable to locate package'; then
     ensure_universe_repo
     sudo apt update || true
-    if output=$(sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev 2>&1); then
+    webkit_pkg="$(choose_webkit_package)"
+    if output=$(sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev "$webkit_pkg" 2>&1); then
       return 0
     fi
   fi
@@ -197,7 +212,7 @@ Manual fallback instructions:
    sudo apt update
 
 2. Install prerequisites for your Linux distro:
-   - Debian/Ubuntu: sudo apt update && sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev
+   - Debian/Ubuntu: sudo apt update && sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.1-dev || sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev
    - Fedora/RHEL: sudo dnf install -y curl git gcc-c++ make openssl-devel gtk3-devel webkit2gtk3-devel
    - Arch/Manjaro: sudo pacman -Syu --needed curl git base-devel openssl gtk3 webkit2gtk
 
