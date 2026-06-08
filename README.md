@@ -132,6 +132,14 @@ sudo curl --proto '=https' --tlsv1.2 -sSf https://repo.waydro.id/waydroid.gpg -o
 sudo apt update
 ```
 
+If `apt install` still reports `Unable to locate package libwebkit2gtk-4.0-dev`, enable the Ubuntu universe repository and update again:
+
+```bash
+sudo add-apt-repository universe
+sudo apt update
+sudo apt install -y libwebkit2gtk-4.0-dev
+```
+
 Then continue with the installer or manual steps.
 
 ### 1.5 Automated installer
@@ -260,6 +268,17 @@ loginctl enable-linger "$USER"
 systemctl --user daemon-reload
 systemctl --user enable --now codex-engine.service
 ```
+
+### Universe repository missing
+
+If `apt install` cannot find `libwebkit2gtk-4.0-dev`, install the Ubuntu universe repository:
+
+```bash
+sudo add-apt-repository universe
+sudo apt update
+```
+
+Then rerun the installer.
 
 ## What this project does
 
