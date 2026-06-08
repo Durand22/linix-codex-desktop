@@ -34,6 +34,15 @@ cloud provider through an OpenAI-compatible API.
 
 ## Quick start
 
+### Option 1: Automated installer (recommended)
+
+```bash
+cd /home/durand/Projects/codex-desktop
+./install.sh
+```
+
+### Option 2: Manual setup
+
 ```bash
 cd /home/durand/Projects/codex-desktop
 
@@ -56,7 +65,7 @@ npm run tauri:dev
 ## One-line copy/paste setup
 
 ```bash
-cd /home/durand/Projects/codex-desktop && nvm use && npm install && ./scripts/install-system-payloads.sh && systemctl --user enable --now codex-engine.service && npm run tauri:dev
+cd /home/durand/Projects/codex-desktop && ./install.sh
 ```
 
 ## Full setup guide
@@ -110,6 +119,19 @@ source "$HOME/.cargo/env"
 rustup toolchain install stable
 rustup default stable
 ```
+
+### 1.2 Automated installer
+
+The repository includes an automated installer script that attempts to install prerequisites, set up Node 20, install Rust, install project dependencies, install system payloads, and start the engine service.
+
+```bash
+cd /home/durand/Projects/codex-desktop
+./install.sh
+```
+
+This script supports Debian/Ubuntu, Fedora/RHEL, and Arch/Manjaro as long as the corresponding package manager is available.
+
+If the script cannot complete an automated step, it will print manual fallback instructions.
 
 ### 2. Use the correct Node version
 
