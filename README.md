@@ -4,6 +4,9 @@ Native Linux desktop shell for Codex. The Tauri wrapper orchestrates a local hea
 `codex app-server` for unrestricted filesystem operations while routing AI inference to a
 cloud provider through an OpenAI-compatible API.
 
+> Known issues: Linux package manager errors can prevent the installer from completing.
+> If you hit `apt update` GPG key failures, see the troubleshooting section below.
+
 ## Architecture
 
 ```
