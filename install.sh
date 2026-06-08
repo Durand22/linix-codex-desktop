@@ -25,8 +25,13 @@ install_packages() {
   case "$1" in
     apt)
       info "Installing required packages with apt"
-      sudo apt update
-      sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev
+      if ! sudo apt update; then
+        warn "apt update failed due to repository issues. Trying to continue with package install from cache."
+      fi
+
+      if ! sudo apt install -y curl git build-essential libssl-dev libgtk-3-dev libwebkit2gtk-4.0-dev; then
+        warn "apt install failed. Please fix your apt sources or install prerequisites manually."
+      fi
       ;;
     dnf)
       info "Installing required packages with dnf"

@@ -127,7 +127,7 @@ The repository includes an automated installer script that installs prerequisite
 ./install.sh
 ```
 
-If the script cannot complete a step automatically, it will print manual fallback instructions.
+If `apt update` fails because of a broken third-party repository or missing signing key, the script will continue to try installing packages from the local cache. If a required package cannot be installed, the installer will print manual fallback instructions.
 
 ### 2. Use the correct Node version
 
